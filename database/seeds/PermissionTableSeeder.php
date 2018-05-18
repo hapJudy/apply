@@ -150,4 +150,30 @@ class PermissionTableSeeder extends Seeder
         $roleDelete->description = '删除角色';
         $roleDelete->save();
     }
+
+    public function goods(){
+        $goodsList = New Permission();
+        $goodsList->name = 'goods.list';
+        $goodsList->display_name = '商品列表';
+        $goodsList->description = '商品列表';
+        $goodsList->save();
+
+        $goodsAdd = New Permission();
+        $goodsAdd->name = 'Goods.add';
+        $goodsAdd->display_name = '添加商品';
+        $goodsAdd->description = '添加商品';
+        $goodsAdd->save();
+
+        $goodsEdit = New Permission();
+        $goodsEdit->name = 'goods.edit';
+        $goodsEdit->display_name = '修改商品';
+        $goodsEdit->description = '修改商品';
+        $goodsEdit->save();
+
+        $goodsDelete = New Permission();
+        $goodsDelete->name = 'goods.delete';
+        $goodsDelete->display_name = '删除商品';
+        $goodsDelete->description = '删除商品';
+        $goodsDelete->save();
+    }
 }

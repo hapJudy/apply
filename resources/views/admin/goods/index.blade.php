@@ -1,18 +1,23 @@
 @extends('admin.layouts.admin')
 
 @section('admin-css')
-    <link href="{{ asset('asset_admin/assets/plugins/treeTable/vsStyle/jquery.treeTable.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('asset_admin/assets/plugins/gritter/css/jquery.gritter.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('asset_admin/assets/plugins/bootstrap-sweetalert-master/dist/sweetalert.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('asset_admin/assets/plugins/DataTables/media/css/dataTables.bootstrap.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('asset_admin/assets/plugins/DataTables/extensions/Responsive/css/responsive.bootstrap.min.css') }}" rel="stylesheet" />
 @endsection
 
 @section('admin-content')
     <div id="content" class="content">
         <!-- begin breadcrumb -->
-
+        <ol class="breadcrumb pull-right">
+            <li><a href="javascript:;">Home</a></li>
+            <li><a href="javascript:;">Tables</a></li>
+            <li class="active">Basic Tables</li>
+        </ol>
         <!-- end breadcrumb -->
         <!-- begin page-header -->
-        {{--<h1 class="page-header">菜单列表 <small>header small text goes here...</small></h1>--}}
+        <h1 class="page-header">商品列表 <small>header small text goes here...</small></h1>
         <!-- end page-header -->
         <!-- begin row -->
         <div class="row">
@@ -29,33 +34,40 @@
                         <h4 class="panel-title">列表</h4>
                     </div>
                     <div class="panel-body">
-                        {{--@permission('menus.add')--}}
-                        @if(auth('admin')->user()->can('menus.add'))
-                        <a href="{{ url('admin/menus/create') }}">
+                        @if(auth('admin')->user()->can('goods.add'))
+                        <a href="{{ url('admin/goods/create') }}">
                             <button type="button" class="btn btn-primary m-r-5 m-b-5"><i class="fa fa-plus-square-o"></i> 新增</button>
                         </a>
                         @endif
-                        {{--@endpermission--}}
-                        <table class="table table-bordered table-hover" id="treeTable">
+                        <table class="table table-bordered table-hover" id="datatable">
                             <thead>
                             <tr>
-                                <th style="width: 20%;">目录名称</th>
-                                <th style="width: 20%;">目录链接</th>
-                                <th style="width: 20%;">目录权限</th>
-                                <th style="width: 20%;">更新时间</th>
-                                <th style="width: 20%;">操作</th>
+                                <th>id</th>
+                                <th>商品编号</th>
+                                <th>商品名称</th>
+                                <th>商品售价</th>
+                                <th>商品库存</th>
+                                <th>商品类型</th>
+                                <th>添加时间</th>
+                                <th>更新时间</th>
+                                <th>操作</th>
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach($menus as $menu)
-                            <tr id="{{ $menu['id'] }}" pId="{{ $menu['parent_id'] }}">
-                                <td>　<i class="{{ $menu['icon'] }}"></i>　{{ $menu['name'] }}</td>
-                                <td>{{ $menu['url'] }}</td>
-                                <td>{{ $menu['slug'] }}</td>
-                                <td>{{ $menu['updated_at'] }}</td>
-                                <td>{!! $menu['button'] !!}</td>
+                            @foreach($data as $key=>$value)
+
+                            <tr>
+                                <th>{{$value['id']}}</th>
+                                <th>{{$value['GoodsSN']}}</th>
+                                <th>{{$value['GoodsName']}}</th>
+                                <th>{{$value['GoodsPrice']}}</th>
+                                <th>{{$value['GoodsNumber']}}</th>
+                                <th></th>
+                                <th>{{$value['created_at']}}</th>
+                                <th>{{$value['updated_at']}}</th>
+                                <th>{!! $value['button'] !!}</th>
                             </tr>
-                            @endforeach
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -71,22 +83,12 @@
 @section('admin-js')
     <script src="{{ asset('asset_admin/assets/plugins/gritter/js/jquery.gritter.js') }}"></script>
     <script src="{{ asset('asset_admin/assets/plugins/bootstrap-sweetalert-master/dist/sweetalert.js') }}"></script>
-    <script src="{{ asset('asset_admin/assets/plugins/treeTable/jquery.treeTable.js') }}"></script>
+    <script src="{{ asset('asset_admin/assets/plugins/DataTables/media/js/jquery.dataTables.js') }}"></script>
+    <script src="{{ asset('asset_admin/assets/plugins/DataTables/media/js/dataTables.bootstrap.min.js') }}"></script>
+    <script src="{{ asset('asset_admin/assets/plugins/DataTables/extensions/Responsive/js/dataTables.responsive.min.js') }}"></script>
+    <script src="{{ asset('asset_admin/js/permission.list.js')}}"></script>
     <script>
         $(function(){
-            var option = {
-                theme:'vsStyle',
-                expandLevel : 2,
-                beforeExpand : function($treeTable, id) {
-                    if ($('.' + id, $treeTable).length) { return; }
-                    $treeTable.addChilds(html);
-                },
-                onSelect : function($treeTable, id) {
-                    window.console && console.log('onSelect:' + id);
-                }
-            };
-            $('#treeTable').treeTable(option);
-
             @if (session()->has('flash_notification.message'))
                 //通知信息
                 $.gritter.add({

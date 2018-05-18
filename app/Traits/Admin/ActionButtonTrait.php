@@ -14,6 +14,7 @@ trait ActionButtonTrait
             $this->id = $id;
         }
         if (auth('admin')->user()->can("{$actionModel}.edit")){
+
             return "<a href='".url('admin').'/'.$actionModel.'/'.$this->id."/edit'><button type='button' class='btn btn-success btn-xs'><i class='fa fa-pencil'> 编辑</i></button></a> ";
         }
         return '';
@@ -38,6 +39,7 @@ trait ActionButtonTrait
 
     public function getActionButtons($actionModel,$id = null)
     {
+
         return $this->editButton($actionModel,$id).$this->deleteButton($actionModel,$id);
     }
 }

@@ -51,6 +51,20 @@
                                 <th>操作</th>
                             </tr>
                             </thead>
+                            <tbody>
+                            @foreach($data as $key=>$value)
+
+                            <tr>
+                                <th>{{$value['id']}}</th>
+                                <th>{{$value['name']}}</th>
+                                <th>{{$value['display_name']}}</th>
+                                <th>{{$value['description']}}</th>
+                                <th>{{$value['created_at']}}</th>
+                                <th>{{$value['updated_at']}}</th>
+                                <th>{!! $value['button'] !!}</th>
+                            </tr>
+                                @endforeach
+                            </tbody>
                         </table>
                     </div>
                 </div>

@@ -34,7 +34,7 @@ $(document).ready(function () {
         "ajax": {
             'url' : "/admin/permission/ajaxIndex"
         },
-        'aLengthMenu':[50,100],
+        'aLengthMenu':[10,20],
         "columns": [
             {"data": "id","name" : "id"},
             {"data": "name","name" : "name","orderable" : false},

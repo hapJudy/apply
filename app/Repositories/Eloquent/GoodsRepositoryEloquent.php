@@ -2,16 +2,18 @@
 
 namespace App\Repositories\Eloquent;
 
-use App\Models\Permission;
+use App\Models\Goods;
+
+use App\Repositories\Contracts\GoodsRepository;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
-use App\Repositories\Contracts\PermissionRepository as PermissionRepositoryInterface;
+
 
 /**
  * Class MenuRepositoryEloquent
  * @package namespace App\Repositories\Eloquent;
  */
-class PermissionRepositoryEloquent extends BaseRepository implements PermissionRepositoryInterface
+class GoodsRepositoryEloquent extends BaseRepository implements GoodsRepository
 {
     /**
      * Specify Model class name
@@ -20,7 +22,7 @@ class PermissionRepositoryEloquent extends BaseRepository implements PermissionR
      */
     public function model()
     {
-        return Permission::class;
+        return Goods::class;
     }
 
     /**
@@ -83,13 +85,13 @@ class PermissionRepositoryEloquent extends BaseRepository implements PermissionR
      * @param array $attr
      * @return mixed
      */
-    public function createPermission(array $attr)
+    public function createGoods(array $attr)
     {
         $res = $this->model->create($attr);
         if ($res) {
-            flash('权限新增成功', 'success');
+            flash('商品添加成功', 'success');
         } else {
-            flash('权限新增失败', 'error');
+            flash('商品添加失败', 'error');
         }
         return $res;
     }

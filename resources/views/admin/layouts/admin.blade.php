@@ -5,7 +5,7 @@
 <!--<![endif]-->
 <head>
     <meta charset="utf-8" />
-    <title>管理后台</title>
+    <title>商品管理系統</title>
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
     <meta content="" name="description" />
     <meta content="" name="author" />
@@ -40,7 +40,7 @@
         <div class="container-fluid">
             <!-- begin mobile sidebar expand / collapse button -->
             <div class="navbar-header">
-                <a href="{{ url('admin') }}" class="navbar-brand"><span class="navbar-logo"></span> 管理后台</a>
+                <a href="{{ url('admin') }}" class="navbar-brand"><span class="navbar-logo"></span> 商品管理系統</a>
                 <button type="button" class="navbar-toggle" data-click="sidebar-toggled">
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
@@ -60,10 +60,11 @@
                     </form>
                 </li>
                 <li class="dropdown">
-                    <a href="javascript:;" data-toggle="dropdown" class="dropdown-toggle f-s-14">
+                  {{--  <a href="javascript:;" data-toggle="dropdown" class="dropdown-toggle f-s-14">
                         <i class="fa fa-bell-o"></i>
                         <span class="label">5</span>
-                    </a>
+                    </a>--}}
+{{--
                     <ul class="dropdown-menu media-list pull-right animated fadeInDown">
                         <li class="dropdown-header">通知 (5)</li>
                         <li class="media">
@@ -113,10 +114,13 @@
                                 </div>
                             </a>
                         </li>
-                        {{--<li class="dropdown-footer text-center">
+                        --}}
+{{--<li class="dropdown-footer text-center">
                             <a href="javascript:;">View more</a>
-                        </li>--}}
+                        </li>--}}{{--
+
                     </ul>
+--}}
                 </li>
                 <li class="dropdown navbar-user">
                     <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
@@ -125,11 +129,11 @@
                     </a>
                     <ul class="dropdown-menu animated fadeInLeft">
                         <li class="arrow"></li>
-                        <li><a href="javascript:;">Edit Profile</a></li>
+                        {{--<li><a href="javascript:;">Edit Profile</a></li>
                         <li><a href="javascript:;"><span class="badge badge-danger pull-right">2</span> Inbox</a></li>
                         <li><a href="javascript:;">Calendar</a></li>
                         <li><a href="javascript:;">Setting</a></li>
-                        <li class="divider"></li>
+                        <li class="divider"></li>--}}
                         <li><a href="{{ url('admin/logout') }}">Log Out</a></li>
                     </ul>
                 </li>

@@ -21,9 +21,15 @@ class MenuController extends Controller
      */
     public function index()
     {
+        $basic_info['pannel']=['后台菜单目录'];
+        $basic_info['title']=['菜单列表'];
+        $basic_info['description']=['菜单列表'];
         $field = ['id','name','url','slug','icon','parent_id','updated_at'];
         $menus = $this->menu->getAll($field);
-        return view('admin.menu.index',compact('menus'));
+
+
+
+        return view('admin.menu.index',compact('menus'))->with('basic_info',$basic_info);
     }
 
     /**

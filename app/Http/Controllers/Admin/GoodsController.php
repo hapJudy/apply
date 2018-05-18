@@ -5,18 +5,18 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Requests\PermissionRequest;
 use App\Http\Controllers\Controller;
-use App\Repositories\Eloquent\PermissionRepositoryEloquent as PermissionRepository;
+use  App\Repositories\Eloquent\GoodsRepositoryEloquent as GoodsRepository;
 use Illuminate\Support\Facades\DB;
 
-class PermissionController extends Controller
+class GoodsController extends Controller
 {
     public $permission;
 
-    public function __construct(PermissionRepository $permissionRepository)
+    public function __construct(GoodsRepository $GoodsRepository)
     {
-        $this->middleware('CheckPermission:permission');
+        $this->middleware('CheckPermission:goods');
 
-        $this->permission = $permissionRepository;
+        $this->goods = $GoodsRepository;
     }
 
     /**
@@ -26,12 +26,14 @@ class PermissionController extends Controller
      */
     public function index()
     {
-       $permissions = $this->permission->getAll();
-       //dd($permissions);
+       $goodslist = $this->goods->with('GoodsCategory')->getAll();
+
+ 
+
         //$permission=DB::table('permissions')->get();
 
 
-        return view('admin.permission.index')->with('data',$permissions);
+        return view('admin.goods.index')->with('data',$goodslist);
     }
 
     /**
@@ -41,7 +43,7 @@ class PermissionController extends Controller
      */
     public function create()
     {
-        return view('admin.permission.create');
+        return view('admin.goods.create');
     }
 
     /**
@@ -49,10 +51,10 @@ class PermissionController extends Controller
      * @param Request PermissionRequest
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function store(PermissionRequest $request)
+    public function store(Request $request)
     {
-        $this->permission->createPermission($request->all());
-        return redirect('admin/permission');
+        $this->goods->createGoods($request->all());
+        return redirect('admin/goods');
     }
 
     /**

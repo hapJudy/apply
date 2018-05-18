@@ -8,6 +8,8 @@ class CheckPermission{
     public function handle($request, Closure $next, $m)
     {
         $routeName = Route::currentRouteName();
+         //dd($routeName."=>".$m);
+
         $permission = '';
         switch ($routeName){
             case "admin.{$m}.index":
@@ -19,12 +21,14 @@ class CheckPermission{
             case "admin.{$m}.destroy":   $permission = "{$m}.delete";   break;
             default : break;
         }
+
         if (!$permission){
             abort(500,'系统没有权限，请修改权限验证中间件\\App\\Http\\Middleware\\CheckPermission！');
         }
         if (!$request->user('admin')->can($permission)){
             abort(500,'您没有权限进行此次操作！');
         }
+
         return $next($request);
     }
 }
