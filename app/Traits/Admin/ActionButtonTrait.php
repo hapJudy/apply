@@ -13,6 +13,7 @@ trait ActionButtonTrait
         if (!empty($id)){
             $this->id = $id;
         }
+
         if (auth('admin')->user()->can("{$actionModel}.edit")){
 
             return "<a href='".url('admin').'/'.$actionModel.'/'.$this->id."/edit'><button type='button' class='btn btn-success btn-xs'><i class='fa fa-pencil'> 编辑</i></button></a> ";

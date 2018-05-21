@@ -15,8 +15,10 @@
             </li>
         </ul>
         <!-- end sidebar user -->
+
         <!-- begin sidebar nav -->
         <ul class="nav">
+
             @foreach($adminMenus as $adminMenu)
             @if(auth('admin')->user()->can($adminMenu['slug']))
             <li class="has-sub">

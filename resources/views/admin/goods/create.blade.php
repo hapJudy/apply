@@ -75,9 +75,9 @@
                                             name="parent_id">
                                         <option value="">-- 请选择 --</option>
 
-                                        {{--  @foreach($topMenus as $menu)
-                                              <option value="{{ $menu->id }}">{{ $menu->name }}</option>
-                                          @endforeach--}}
+                                        @foreach($category as $cat)
+                                              <option value="{{ $cat->CategoryId }}">{{ $cat->CategoryName }}</option>
+                                          @endforeach
                                     </select>
                                     <p id="parent_id_error1"></p>
                                 </div>

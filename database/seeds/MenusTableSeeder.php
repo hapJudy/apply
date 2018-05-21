@@ -47,5 +47,22 @@ class MenusTableSeeder extends Seeder
         $roleManage->slug = 'role.list';
         $roleManage->parent_id = $systemManage->id;
         $roleManage->save();
+
+        $GoodsManage = new Goods();
+        $GoodsManage->name = '商品管理';
+        $GoodsManage->url = 'admin/goods';
+        $GoodsManage->slug = 'goods.list';
+        $GoodsManage->icon = 'fa fa-cogs';
+        $GoodsManage->parent_id = 0;
+        $GoodsManage->save();
+
+        $GoodsList = new Goods();
+        $GoodsList->name = '商品管理';
+        $GoodsList->url = 'admin/goods';
+        $GoodsList->slug = 'goods.list';
+        $GoodsList->parent_id = $GoodsManage->id;
+        $GoodsList->save();
+
+
     }
 }

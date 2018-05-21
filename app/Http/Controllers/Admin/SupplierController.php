@@ -6,18 +6,18 @@ use App\models\GoodsCategory;
 use Illuminate\Http\Request;
 use App\Http\Requests\PermissionRequest;
 use App\Http\Controllers\Controller;
-use  App\Repositories\Eloquent\GoodsRepositoryEloquent as GoodsRepository;
+use  App\Repositories\Eloquent\SupplierRepositoryEloquent as SupplierRepository;
 use Illuminate\Support\Facades\DB;
 
-class GoodsController extends Controller
+class SupplierController extends Controller
 {
     public $permission;
 
-    public function __construct(GoodsRepository $GoodsRepository)
+    public function __construct(SupplierRepository $SupplierRepository)
     {
-        $this->middleware('CheckPermission:goods');
+        $this->middleware('CheckPermission:supplier');
 
-        $this->goods = $GoodsRepository;
+        $this->Supplier = $SupplierRepository;
     }
 
     /**
@@ -27,14 +27,11 @@ class GoodsController extends Controller
      */
     public function index()
     {
-       $goodslist = $this->goods->with('GoodsCategory')->getAll();
+       $supplierList = $this->Supplier->getAll();
 
+        //dd($supplierList);
 
-
-        //$permission=DB::table('permissions')->get();
-
-
-        return view('admin.goods.index')->with('data',$goodslist);
+        return view('admin.supplier.index')->with('data',$supplierList);
     }
 
     /**
@@ -44,9 +41,8 @@ class GoodsController extends Controller
      */
     public function create()
     {
-        $category=GoodsCategory::all();
 
-        return view('admin.goods.create')->with('category',$category);
+        return view('admin.supplier.create');
     }
 
     /**
@@ -56,8 +52,8 @@ class GoodsController extends Controller
      */
     public function store(Request $request)
     {
-        $this->goods->createGoods($request->all());
-        return redirect('admin/goods');
+        $this->Supplier->createSupplier($request->all());
+        return redirect('admin/supplier');
     }
 
     /**
@@ -74,13 +70,15 @@ class GoodsController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int $id
+     * @param  int $SupplierId
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($SupplierId)
     {
-        $permission = $this->permission->find($id,['id','name','display_name','description'])->toArray();
-        return view('admin.permission.edit',compact('permission'));
+        $supplier = $this->Supplier->find($SupplierId)->toArray();
+        //dd($permission);
+
+        return view('admin.supplier.edit',compact('supplier'));
     }
 
     /**
@@ -89,10 +87,10 @@ class GoodsController extends Controller
      * @param $id
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function update(PermissionRequest $request, $id)
+    public function update(Request $request, $id)
     {
-        $this->permission->updatePermission($request->all(),$id);
-        return redirect('admin/permission');
+        $this->Supplier->updateSupplier($request->all(),$id);
+        return redirect('admin/supplier');
     }
 
     /**
@@ -103,13 +101,14 @@ class GoodsController extends Controller
      */
     public function destroy($id)
     {
-
+      $this->Supplier->delete($id);
+      return redirect('admin/supplier');
     }
 
     public function ajaxIndex(Request $request)
     {
 
-        $result = $this->permission->ajaxIndex($request);
+        $result = $this->Supplier->ajaxIndex($request);
         return response()->json($result,JSON_UNESCAPED_UNICODE);
     }
 }

@@ -24,6 +24,11 @@ Route::group(['middleware' => ['auth:admin']], function ($router) {
     $router->get('goods/ajaxIndex',['uses'=>'GoodsController@ajaxIndex','as'=>'admin.goods.ajaxIndex']);
     $router->resource('goods', 'GoodsController');
 
+    //供应商管理
+    $router->get('supplier/ajaxIndex',['uses'=>'supplierController@ajaxIndex','as'=>'admin.supplier.ajaxIndex']);
+
+    $router->resource('supplier', 'SupplierController');
+
 });
 
 Route::get('login', ['uses' => 'AuthController@index','as' => 'admin.auth.index']);
