@@ -2,18 +2,21 @@
 
 namespace App\Repositories\Eloquent;
 
-use App\Models\Goods;
 
-use App\Repositories\Contracts\GoodsRepository;
+
+
+
+use App\models\Goods;
+use App\models\Inbound;
+use App\Repositories\Contracts\InboundRepository;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
-
 
 /**
  * Class MenuRepositoryEloquent
  * @package namespace App\Repositories\Eloquent;
  */
-class GoodsRepositoryEloquent extends BaseRepository implements GoodsRepository
+class InBoundRepositoryEloquent extends BaseRepository implements InboundRepository
 {
     /**
      * Specify Model class name
@@ -22,7 +25,7 @@ class GoodsRepositoryEloquent extends BaseRepository implements GoodsRepository
      */
     public function model()
     {
-        return Goods::class;
+        return Inbound::class;
     }
 
     /**
@@ -35,11 +38,10 @@ class GoodsRepositoryEloquent extends BaseRepository implements GoodsRepository
 
     public function getAll($columns = ['*'])
     {
-
         $list = $this->all($columns)->toArray();
 
         foreach ($list as $key => $value) {
-            $list[$key]['button'] = $this->model->getGoodsButtons('goods',$value['id']);
+            $list[$key]['button'] = $this->model->getOnlineButton('inbound',$value['id']);
         }
         return $list;
 
@@ -86,21 +88,40 @@ class GoodsRepositoryEloquent extends BaseRepository implements GoodsRepository
      * @param array $attr
      * @return mixed
      */
-    public function createGoods(array $attr)
+    public function createPurchase(array $attr)
     {
         $res = $this->model->create($attr);
+
         if ($res) {
-            flash('商品添加成功', 'success');
+            flash('采购请求发送成功', 'success');
         } else {
-            flash('商品添加失败', 'error');
+            flash('采购请求发送失败', 'error');
         }
         return $res;
     }
 
-    public function updatePermission(array $attr, $id)
+    public function updateInbound(array $attr, $id)
     {
+        //dd($attr);
         $res = $this->update($attr,$id);
-        if ($res) {
+        $where['id']=$id;
+        $where['status']=1;
+
+        $inbound=$this->with('goods')->findWhere($where);
+
+
+
+        if ($res && $inbound) {
+
+            $data=array(
+                'GoodsNumber'=>$inbound[0]['inNumber']+$inbound[0]['goods']['GoodsNumber']
+            );
+           $where=array(
+               'id'=>$inbound[0]['goodsId']
+           );
+
+           Goods::where($where)->update($data);
+
             flash('修改成功!', 'success');
         } else {
             flash('修改失败!', 'error');

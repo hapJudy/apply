@@ -17,7 +17,7 @@
         </ol>
         <!-- end breadcrumb -->
         <!-- begin page-header -->
-        <h1 class="page-header">商品列表 <small>header small text goes here...</small></h1>
+        <h1 class="page-header">采购列表 <small>header small text goes here...</small></h1>
         <!-- end page-header -->
         <!-- begin row -->
         <div class="row">
@@ -34,21 +34,16 @@
                         <h4 class="panel-title">列表</h4>
                     </div>
                     <div class="panel-body">
-                        @if(auth('admin')->user()->can('goods.add'))
-                        <a href="{{ url('admin/goods/create') }}">
-                            <button type="button" class="btn btn-primary m-r-5 m-b-5"><i class="fa fa-plus-square-o"></i> 新增</button>
-                        </a>
-                        @endif
                         <table class="table table-bordered table-hover" id="datatable">
                             <thead>
                             <tr>
-                                <th>id</th>
-                                <th>商品编号</th>
-                                <th>商品名称</th>
-                                <th>商品售价</th>
-                                <th>商品库存量</th>
-                                <th>商品警示库存量</th>
-                                <th>商品类型</th>
+                                <th>采购编号</th>
+                                <th>采购商品</th>
+                                <th>采购数量</th>
+                                <th>采购价格</th>
+                                <th>采购供应商</th>
+                                <th>审核状态</th>
+
                                 <th>操作</th>
                             </tr>
                             </thead>
@@ -57,13 +52,24 @@
 
                             <tr>
                                 <th>{{$value['id']}}</th>
-                                <th>{{$value['GoodsSN']}}</th>
-                                <th>{{$value['GoodsName']}}</th>
-                                <th>{{$value['GoodsPrice']}}</th>
-                                <th>{{$value['GoodsNumber']}}</th>
-                                <th>{{$value['goodsLowNumber']}}</th>
-                                <th>{{$value['goods_category']['CategoryName']}}</th>
-                                <th>{!! $value['button'] !!}</th>
+                                <th>{{$value['goods']['GoodsName']}}</th>
+                                <th>{{$value['number']}}</th>
+                                <th>{{$value['price']}}</th>
+                                <th>{{$value['supplier']['SupplierCompany']}}</th>
+                                @if($value['status']==1)
+                                    <th>审核通过</th>
+                                @else
+                                    <th>未审核</th>
+                                @endif
+                                <th>
+                                    @if($value['status']== 1)
+                                    <a>
+                                        <button type='button' class='btn btn-default btn-xs'><i class='fa fa-pencil'> 审核</i></button></a>
+                                    @else
+                                        <a href='./purchase/{{$value['id']}}/edit'><button type='button' class='btn btn-primary btn-xs'><i class='fa fa-pencil'> 审核</i></button></a>
+
+                                    @endif
+                                    {!! $value['button'] !!}</th>
                             </tr>
                                 @endforeach
                             </tbody>

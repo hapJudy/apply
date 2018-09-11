@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use App\Http\Requests\PermissionRequest;
 use App\Http\Controllers\Controller;
 use  App\Repositories\Eloquent\GoodsRepositoryEloquent as GoodsRepository;
-use Illuminate\Support\Facades\DB;
 
 class GoodsController extends Controller
 {
@@ -29,7 +28,7 @@ class GoodsController extends Controller
     {
        $goodslist = $this->goods->with('GoodsCategory')->getAll();
 
-
+       //dd($goodslist);
 
         //$permission=DB::table('permissions')->get();
 

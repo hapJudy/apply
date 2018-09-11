@@ -17,7 +17,7 @@
         </ol>
         <!-- end breadcrumb -->
         <!-- begin page-header -->
-        <h1 class="page-header">商品列表 <small>header small text goes here...</small></h1>
+        <h1 class="page-header">出库列表 <small>header small text goes here...</small></h1>
         <!-- end page-header -->
         <!-- begin row -->
         <div class="row">
@@ -34,21 +34,16 @@
                         <h4 class="panel-title">列表</h4>
                     </div>
                     <div class="panel-body">
-                        @if(auth('admin')->user()->can('goods.add'))
-                        <a href="{{ url('admin/goods/create') }}">
-                            <button type="button" class="btn btn-primary m-r-5 m-b-5"><i class="fa fa-plus-square-o"></i> 新增</button>
-                        </a>
-                        @endif
                         <table class="table table-bordered table-hover" id="datatable">
                             <thead>
                             <tr>
-                                <th>id</th>
-                                <th>商品编号</th>
-                                <th>商品名称</th>
-                                <th>商品售价</th>
-                                <th>商品库存量</th>
-                                <th>商品警示库存量</th>
-                                <th>商品类型</th>
+                                <th>出库编号</th>
+                                <th>出库商品</th>
+                                <th>出库数量</th>
+                                <th>出库单价</th>
+                                <th>总价</th>
+                                <th>是否出库</th>
+
                                 <th>操作</th>
                             </tr>
                             </thead>
@@ -57,13 +52,26 @@
 
                             <tr>
                                 <th>{{$value['id']}}</th>
-                                <th>{{$value['GoodsSN']}}</th>
-                                <th>{{$value['GoodsName']}}</th>
-                                <th>{{$value['GoodsPrice']}}</th>
-                                <th>{{$value['GoodsNumber']}}</th>
-                                <th>{{$value['goodsLowNumber']}}</th>
-                                <th>{{$value['goods_category']['CategoryName']}}</th>
-                                <th>{!! $value['button'] !!}</th>
+                                <th>{{$value['goods']['GoodsName']}}</th>
+                                <th>{{$value['outNumber']}}</th>
+                                <th>{{$value['outPrice']}}</th>
+                                <th>{{$value['profile']}}</th>
+                                @if($value['status']==1)
+                                    <th>已出库</th>
+                                @else
+                                    <th>未出库</th>
+                                @endif
+                                <th>
+                                    @if($value['status'] == 1)
+                                        <a>
+                                            <button type='button' class='btn btn-default btn-xs'><i class='fa fa-pencil'> 出库</i></button></a>
+
+                                    @else
+                                    <a href='./outbound/{{$value['id']}}/edit'>
+                                        <button type='button' class='btn btn-success btn-xs'><i class='fa fa-pencil'> 出库</i></button></a>
+                                  @endif
+
+                                </th>
                             </tr>
                                 @endforeach
                             </tbody>

@@ -13,16 +13,18 @@ class Goods extends Model implements Transformable
     use EntrustUserTrait;
     use ActionButtonTrait;
     protected $table = 'goods';
-    /*protected $fillable = [
-        'name',
-        'email',
-        'password',
+    protected $fillable = [
+        'GoodsName',
+        'GoodsNumber',
+        'GoodsLowNumber',
+        'GoodsPrice',
+        'CategoryId',
         'created_at',
         'updated_at'
-    ];*/
+    ];
 
-    public function belongsToGoodsCategory(){
-        return $this->belongsTo('GoodsCategory','CategoryId','CategoryId');
+    public function GoodsCategory(){
+        return $this->belongsTo(GoodsCategory::class,'CategoryId','CategoryId');
     }
 
 

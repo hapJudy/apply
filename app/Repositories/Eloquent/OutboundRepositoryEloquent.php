@@ -2,18 +2,21 @@
 
 namespace App\Repositories\Eloquent;
 
-use App\Models\Goods;
 
-use App\Repositories\Contracts\GoodsRepository;
+
+
+
+use App\models\Goods;
+use App\models\Outbound;
+use App\Repositories\Contracts\OutboundRepository;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
-
 
 /**
  * Class MenuRepositoryEloquent
  * @package namespace App\Repositories\Eloquent;
  */
-class GoodsRepositoryEloquent extends BaseRepository implements GoodsRepository
+class OutboundRepositoryEloquent extends BaseRepository implements OutboundRepository
 {
     /**
      * Specify Model class name
@@ -22,7 +25,7 @@ class GoodsRepositoryEloquent extends BaseRepository implements GoodsRepository
      */
     public function model()
     {
-        return Goods::class;
+        return Outbound::class;
     }
 
     /**
@@ -35,12 +38,12 @@ class GoodsRepositoryEloquent extends BaseRepository implements GoodsRepository
 
     public function getAll($columns = ['*'])
     {
-
         $list = $this->all($columns)->toArray();
 
         foreach ($list as $key => $value) {
-            $list[$key]['button'] = $this->model->getGoodsButtons('goods',$value['id']);
+            $list[$key]['button'] = $this->model->getOutstockButton('outbound',$value['id']);
         }
+         //dd($list);
         return $list;
 
     }
@@ -86,21 +89,33 @@ class GoodsRepositoryEloquent extends BaseRepository implements GoodsRepository
      * @param array $attr
      * @return mixed
      */
-    public function createGoods(array $attr)
+    public function createOutbound(array $attr)
     {
         $res = $this->model->create($attr);
+
         if ($res) {
-            flash('商品添加成功', 'success');
+            flash('出库单创建成功','success');
         } else {
-            flash('商品添加失败', 'error');
+            flash('出库单创建失败', 'error');
         }
         return $res;
     }
 
-    public function updatePermission(array $attr, $id)
+    public function updateOutbound(array $attr, $id)
     {
+
         $res = $this->update($attr,$id);
-        if ($res) {
+        $where['id']=$id;
+        $where['status']=1;
+        $outbound=$this->with('goods')->findWhere($where)->toArray();
+
+        if ($res && $outbound) {
+             $data=array(
+                 'GoodsNumber'=>$outbound[0]['goods']['GoodsNumber']-$outbound[0]['outNumber']
+             );
+             $rs=Goods::where(array('id'=>$outbound[0]['goodsId']))->update($data);
+
+
             flash('修改成功!', 'success');
         } else {
             flash('修改失败!', 'error');

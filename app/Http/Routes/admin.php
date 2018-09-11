@@ -24,10 +24,27 @@ Route::group(['middleware' => ['auth:admin']], function ($router) {
     $router->get('goods/ajaxIndex',['uses'=>'GoodsController@ajaxIndex','as'=>'admin.goods.ajaxIndex']);
     $router->resource('goods', 'GoodsController');
 
+    //出入库管理
+    $router->resource('inbound','InboundController');
+
+    $router->resource('outbound','OutboundController');
+
+    //商品分类/供应商分类管理
+    $router->get('goodsCategory/ajaxIndex',['uses'=>'GoodsCategoryController@ajaxIndex','as'=>'admin.goodsCategory.ajaxIndex']);
+    $router->get('goodsCategory/ajax',['uses'=>'GoodsCategoryController@ajax','as'=>'admin.goodsCategory.ajax']);
+
+    $router->resource('goodsCategory', 'GoodsCategoryController');
+
     //供应商管理
     $router->get('supplier/ajaxIndex',['uses'=>'supplierController@ajaxIndex','as'=>'admin.supplier.ajaxIndex']);
 
     $router->resource('supplier', 'SupplierController');
+
+    //采购管理
+    //$router->put('purchase/update','PurchaseController@update');
+    $router->resource('purchase','PurchaseController');
+    //$router->put('purchase/update','PurchaseController@update');
+
 
 });
 

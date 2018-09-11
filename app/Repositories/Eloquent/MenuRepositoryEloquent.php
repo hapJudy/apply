@@ -46,9 +46,11 @@ class MenuRepositoryEloquent extends BaseRepository implements MenuRepositoryInt
     {
         $res = $this->all($columns)->toArray();
         $list = $this->sortList($res);
+
         foreach ($list as $key => $value) {
             $list[$key]['button'] = $this->model->getActionButtons('menus',$value['id']);
         }
+
         return $list;
 
     }

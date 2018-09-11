@@ -15,7 +15,7 @@
         </ol>
         <!-- end breadcrumb -->
         <!-- begin page-header -->
-        <h1 class="page-header">新增商品 <small>header small text goes here...</small></h1>
+        <h1 class="page-header">新增采购请求 <small>header small text goes here...</small></h1>
         <!-- end page-header -->
 
         <!-- begin row -->
@@ -43,64 +43,53 @@
                         </div>
                     @endif
                     <div class="panel-body panel-form">
-                        <form class="form-horizontal form-bordered" data-parsley-validate="true" action="{{ url('admin/goods') }}" method="POST">
+                        <form class="form-horizontal form-bordered" data-parsley-validate="true" action="{{ url('admin/purchase') }}" method="POST">
                             {{ csrf_field() }}
                             <div class="form-group">
-                                <label class="control-label col-md-4 col-sm-4" for="GoodsName">商品名称 * :</label>
+                                <label class="control-label col-md-4 col-sm-4" for="GoodsName">采购商品名称 * :</label>
                                 <div class="col-md-6 col-sm-6">
-                                    <input class="form-control" type="text" name="GoodsName" placeholder="名称" data-parsley-required="true" data-parsley-required-message="请输入名称" value="{{ old('GoodsName') }}"/>
+                                    <input class="form-control" type="text" readonly="true" name="GoodsName" placeholder="{{$data['goods']->GoodsName}}"/>
+                                    <input type="hidden" name="goodsId" value="{{$data['goods']->id}}";/>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-md-4 col-sm-4" for="GoodsPrice">商品售价 * :</label>
+                                <label class="control-label col-md-4 col-sm-4" for="price">采购商品价格 * :</label>
                                 <div class="col-md-6 col-sm-6">
-                                    <input class="form-control" type="text" name="GoodsPrice" placeholder="商品售价" data-parsley-required="true" data-parsley-required-message="请输入商品售价" value="{{ old('GoodsPrice') }}"/>
+                                    <input class="form-control" type="text" name="price" placeholder="采购价格" data-parsley-required="true" data-parsley-required-message="请输入商品采购价"/>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-md-4 col-sm-4" for="GoodsNumber">商品库存量 * :</label>
+                                <label class="control-label col-md-4 col-sm-4" for="number">采购数量 * :</label>
                                 <div class="col-md-6 col-sm-6">
-                                    <input class="form-control" type="text" name="GoodsNumber" placeholder="商品库存量" data-parsley-required="true" data-parsley-required-message="请输入库存量" value="{{ old('GoodsNumber') }}"/>
+                                    <input class="form-control" type="text" name="number" placeholder="采购数量" data-parsley-required="true" data-parsley-required-message="请输入采购数量" />
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-md-4 col-sm-4" for="goodsLowNumber">商品警示库存量 * :</label>
-                                <div class="col-md-6 col-sm-6">
-                                    <input class="form-control" type="text" name="goodsLowNumber" placeholder="商品警示库存量" data-parsley-required="true" data-parsley-required-message="请输入警示库存量" value="{{ old('goodsLowNumber') }}"/>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label col-md-4 col-sm-4" for="icon">商品类型 * :</label>
+                                <label class="control-label col-md-4 col-sm-4" for="goodsLowNumber">供应商 * :</label>
                                 <div class="col-md-6 col-sm-6">
                                     <select class="form-control selectpicker"
-                                            style="display: initial;width: 50%"
                                             data-live-search="true"
                                             data-style="btn-white"
                                             data-parsley-required="true"
                                             data-parsley-errors-container="#parent_id_error1"
                                             data-parsley-required-message="请选择商品类型"
-                                            name="parent_id">
+                                            name="supplierId">
                                         <option value="">-- 请选择 --</option>
 
-                                        @foreach($category as $cat)
-                                              <option value="{{ $cat->CategoryId }}">{{ $cat->CategoryName }}</option>
-                                          @endforeach
+                                        @foreach($data['suppliers'] as $cat)
+                                            <option value="{{ $cat->id }}">{{ $cat->SupplierCompany }}</option>
+                                        @endforeach
                                     </select>
-                                    @if(auth('admin')->user()->can('goodsCategory.add'))
-                                        <a href="{{ url('admin/goodsCategory/create') }}">
-                                            <button type="button" class="btn btn-primary m-r-5 m-b-5"><i class="fa fa-plus-square-o"></i> 新增</button>
-                                        </a>
-                                    @endif
                                     <p id="parent_id_error1"></p>
-
                                 </div>
-
                             </div>
+
 
                             <div class="form-group">
                                 <label class="control-label col-md-4 col-sm-4"></label>
                                 <div class="col-md-6 col-sm-6">
                                     <button type="submit" class="btn btn-primary">提交</button>
+                                    <input type="hidden" name="status" value="0"/>
                                 </div>
                             </div>
                         </form>

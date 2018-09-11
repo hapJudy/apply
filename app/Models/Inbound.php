@@ -7,22 +7,28 @@ use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 use Zizaco\Entrust\Traits\EntrustUserTrait;
 use App\Traits\Admin\ActionButtonTrait;
-class GoodsCategory extends Model implements Transformable
+class Inbound extends Model implements Transformable
 {
     use TransformableTrait;
     use EntrustUserTrait;
     use ActionButtonTrait;
-    protected $table = 'goodsCategory';
-    protected  $primaryKey='CategoryId';
+    protected $table = 'inbound';
+    protected  $primaryKey='id';
     protected $fillable = [
-        'CategoryName',
-        'parentId',
+        'goodsId',
+        'inNumber',
+        'inPrice',
+        'status'
     ];
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function hasManyGoods(){
-       return $this->hasMany(Goods::class,'CategoryId','CategoryId');
+    public function goods(){
+       return $this->hasOne(Goods::class,'id','goodsId');
+    }
+
+    public function  supplier(){
+        return $this->hasOne(Supplier::class,'id','supplierId');
     }
 
 }

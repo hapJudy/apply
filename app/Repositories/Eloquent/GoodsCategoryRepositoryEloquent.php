@@ -2,9 +2,11 @@
 
 namespace App\Repositories\Eloquent;
 
-use App\Models\Goods;
 
-use App\Repositories\Contracts\GoodsRepository;
+
+use App\models\GoodsCategory;
+use App\Repositories\Contracts\GoodsCategoryRepository;
+
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
 
@@ -13,7 +15,7 @@ use Prettus\Repository\Criteria\RequestCriteria;
  * Class MenuRepositoryEloquent
  * @package namespace App\Repositories\Eloquent;
  */
-class GoodsRepositoryEloquent extends BaseRepository implements GoodsRepository
+class GoodsCategoryRepositoryEloquent extends BaseRepository implements GoodsCategoryRepository
 {
     /**
      * Specify Model class name
@@ -22,7 +24,7 @@ class GoodsRepositoryEloquent extends BaseRepository implements GoodsRepository
      */
     public function model()
     {
-        return Goods::class;
+        return GoodsCategory::class;
     }
 
     /**
@@ -35,12 +37,12 @@ class GoodsRepositoryEloquent extends BaseRepository implements GoodsRepository
 
     public function getAll($columns = ['*'])
     {
-
         $list = $this->all($columns)->toArray();
 
         foreach ($list as $key => $value) {
-            $list[$key]['button'] = $this->model->getGoodsButtons('goods',$value['id']);
+            $list[$key]['button'] = $this->model->getActionButtons('permission',$value['CategoryId']);
         }
+
         return $list;
 
     }
@@ -86,13 +88,14 @@ class GoodsRepositoryEloquent extends BaseRepository implements GoodsRepository
      * @param array $attr
      * @return mixed
      */
-    public function createGoods(array $attr)
+    public function createGoodsCategory(array $attr)
     {
         $res = $this->model->create($attr);
+
         if ($res) {
-            flash('商品添加成功', 'success');
+            flash('分类添加成功', 'success');
         } else {
-            flash('商品添加失败', 'error');
+            flash('分类添加失败', 'error');
         }
         return $res;
     }

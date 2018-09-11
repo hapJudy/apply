@@ -57,9 +57,9 @@
                         <div class="login-buttons">
                             <button type="submit" class="btn btn-success btn-block btn-lg">登　录</button>
                         </div>
-                        <div class="m-t-20 m-b-40 p-b-40">
+                       {{-- <div class="m-t-20 m-b-40 p-b-40">
                             Not a member yet? Click <a href="register_v3.html" class="text-success">here</a> to register.
-                        </div>
+                        </div>--}}
                         <hr />
                         <p class="text-center text-inverse">
                             &copy; Color Admin All Right Reserved 2015

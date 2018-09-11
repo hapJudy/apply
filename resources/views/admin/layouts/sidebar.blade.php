@@ -1,4 +1,4 @@
-<?php /*echo '<pre>';print_r($adminMenus);*/?>
+
 <div id="sidebar" class="sidebar sidebar-transparent">
     <!-- begin sidebar scrollbar -->
     <div data-scrollbar="true" data-height="100%">

@@ -34,8 +34,8 @@
                         <h4 class="panel-title">列表</h4>
                     </div>
                     <div class="panel-body">
-                        @if(auth('admin')->user()->can('goods.add'))
-                        <a href="{{ url('admin/goods/create') }}">
+                        @if(auth('admin')->user()->can('goodsCategory.add'))
+                        <a href="{{ url('admin/goodsCategory/create') }}">
                             <button type="button" class="btn btn-primary m-r-5 m-b-5"><i class="fa fa-plus-square-o"></i> 新增</button>
                         </a>
                         @endif
@@ -43,12 +43,9 @@
                             <thead>
                             <tr>
                                 <th>id</th>
-                                <th>商品编号</th>
-                                <th>商品名称</th>
-                                <th>商品售价</th>
-                                <th>商品库存量</th>
-                                <th>商品警示库存量</th>
-                                <th>商品类型</th>
+                                <th>分类名称</th>
+                                <th>上级分类</th>
+                                <th>创建时间</th>
                                 <th>操作</th>
                             </tr>
                             </thead>
@@ -56,13 +53,10 @@
                             @foreach($data as $key=>$value)
 
                             <tr>
-                                <th>{{$value['id']}}</th>
-                                <th>{{$value['GoodsSN']}}</th>
-                                <th>{{$value['GoodsName']}}</th>
-                                <th>{{$value['GoodsPrice']}}</th>
-                                <th>{{$value['GoodsNumber']}}</th>
-                                <th>{{$value['goodsLowNumber']}}</th>
-                                <th>{{$value['goods_category']['CategoryName']}}</th>
+                                <th>{{$value['CategoryId']}}</th>
+                                <th>{{$value['CategoryName']}}</th>
+                                <th>{{$value['ParentId']}}</th>
+                                <th>{{$value['created_at']}}</th>
                                 <th>{!! $value['button'] !!}</th>
                             </tr>
                                 @endforeach

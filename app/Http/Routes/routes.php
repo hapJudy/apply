@@ -11,8 +11,8 @@
 |
  */
 
-Route::get('/', ['middleware' => 'web', function () {
-    return view('index');
+Route::get('/', ['middleware' => ['auth:admin'], function () {
+    Route::resource('index', 'IndexController');
 }]);
 
 /*

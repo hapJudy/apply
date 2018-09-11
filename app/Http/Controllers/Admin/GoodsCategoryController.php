@@ -2,21 +2,23 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\models\GoodsCategory;
 use Illuminate\Http\Request;
 use App\Http\Requests\PermissionRequest;
 use App\Http\Controllers\Controller;
-use App\Repositories\Eloquent\PermissionRepositoryEloquent as PermissionRepository;
+use  App\Repositories\Eloquent\GoodsCategoryRepositoryEloquent as GoodsCategoryRepository;
 use Illuminate\Support\Facades\DB;
 
-class PermissionController extends Controller
+class GoodsCategoryController extends Controller
 {
     public $permission;
 
-    public function __construct(PermissionRepository $permissionRepository)
+    public function __construct(GoodsCategoryRepository $goodsCategoryRepository)
     {
-        $this->middleware('CheckPermission:permission');
+        //dd($goodsCategoryRepository);
+        $this->middleware('CheckPermission:goodsCategory');
 
-        $this->permission = $permissionRepository;
+        $this->goodsCategory = $goodsCategoryRepository;
     }
 
     /**
@@ -26,12 +28,13 @@ class PermissionController extends Controller
      */
     public function index()
     {
-       $permissions = $this->permission->getAll();
-       //dd($permissions);
+       $goodslist = $this->goodsCategory->with('hasManyGoods')->getAll();
+
+
         //$permission=DB::table('permissions')->get();
 
 
-        return view('admin.permission.index')->with('data',$permissions);
+        return view('admin.goodsCategory.index')->with('data',$goodslist);
     }
 
     /**
@@ -41,7 +44,9 @@ class PermissionController extends Controller
      */
     public function create()
     {
-        return view('admin.permission.create');
+        $category=GoodsCategory::all();
+
+        return view('admin.goodsCategory.create')->with('category',$category);
     }
 
     /**
@@ -49,14 +54,25 @@ class PermissionController extends Controller
      * @param Request PermissionRequest
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function store(PermissionRequest $request)
+    public function store(Request $request)
     {
-        $this->permission->createPermission($request->all());
-        return redirect('admin/permission');
+
+        $this->goodsCategory->createGoodsCategory($request->all());
+        return redirect('admin/goodsCategory');
+    }
+
+    public function ajax(Request $request){
+       $category=$this->goodsCategory->findWhere($request->all());
+       if(!$category){
+           dd('faile');
+       }else{
+           return $category;
+       }
+
     }
 
     /**
-     * Display the specified resource.
+     * Displ;ay the specified resource.
      *
      * @param  int $id
      * @return \Illuminate\Http\Response
@@ -74,7 +90,7 @@ class PermissionController extends Controller
      */
     public function edit($id)
     {
-        $permission = $this->permission->find($id,['id','name','display_name','description'])->toArray();
+        $permission = $this->goodsCategory->find($id,['id','name','display_name','description'])->toArray();
         return view('admin.permission.edit',compact('permission'));
     }
 
@@ -86,7 +102,6 @@ class PermissionController extends Controller
      */
     public function update(PermissionRequest $request, $id)
     {
-        //dd($request->all());
         $this->permission->updatePermission($request->all(),$id);
         return redirect('admin/permission');
     }
@@ -104,7 +119,8 @@ class PermissionController extends Controller
 
     public function ajaxIndex(Request $request)
     {
-
+        dd(123);
+        dd($request->all());
         $result = $this->permission->ajaxIndex($request);
         return response()->json($result,JSON_UNESCAPED_UNICODE);
     }

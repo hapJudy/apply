@@ -15,7 +15,7 @@
         </ol>
         <!-- end breadcrumb -->
         <!-- begin page-header -->
-        <h1 class="page-header">新增商品 <small>header small text goes here...</small></h1>
+        <h1 class="page-header">新增分类 <small>header small text goes here...</small></h1>
         <!-- end page-header -->
 
         <!-- begin row -->
@@ -43,59 +43,41 @@
                         </div>
                     @endif
                     <div class="panel-body panel-form">
-                        <form class="form-horizontal form-bordered" data-parsley-validate="true" action="{{ url('admin/goods') }}" method="POST">
+                        <form class="form-horizontal form-bordered" data-parsley-validate="true" action="{{ url('admin/goodsCategory') }}" method="POST">
                             {{ csrf_field() }}
-                            <div class="form-group">
-                                <label class="control-label col-md-4 col-sm-4" for="GoodsName">商品名称 * :</label>
+                             <div class="form-group">
+                                <label class="control-label col-md-4 col-sm-4" for="icon"> 上级分类* :</label>
                                 <div class="col-md-6 col-sm-6">
-                                    <input class="form-control" type="text" name="GoodsName" placeholder="名称" data-parsley-required="true" data-parsley-required-message="请输入名称" value="{{ old('GoodsName') }}"/>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label col-md-4 col-sm-4" for="GoodsPrice">商品售价 * :</label>
-                                <div class="col-md-6 col-sm-6">
-                                    <input class="form-control" type="text" name="GoodsPrice" placeholder="商品售价" data-parsley-required="true" data-parsley-required-message="请输入商品售价" value="{{ old('GoodsPrice') }}"/>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label col-md-4 col-sm-4" for="GoodsNumber">商品库存量 * :</label>
-                                <div class="col-md-6 col-sm-6">
-                                    <input class="form-control" type="text" name="GoodsNumber" placeholder="商品库存量" data-parsley-required="true" data-parsley-required-message="请输入库存量" value="{{ old('GoodsNumber') }}"/>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label col-md-4 col-sm-4" for="goodsLowNumber">商品警示库存量 * :</label>
-                                <div class="col-md-6 col-sm-6">
-                                    <input class="form-control" type="text" name="goodsLowNumber" placeholder="商品警示库存量" data-parsley-required="true" data-parsley-required-message="请输入警示库存量" value="{{ old('goodsLowNumber') }}"/>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label col-md-4 col-sm-4" for="icon">商品类型 * :</label>
-                                <div class="col-md-6 col-sm-6">
-                                    <select class="form-control selectpicker"
-                                            style="display: initial;width: 50%"
+                                    <select name="ParentId" class="form-control selectpicker"
                                             data-live-search="true"
                                             data-style="btn-white"
                                             data-parsley-required="true"
                                             data-parsley-errors-container="#parent_id_error1"
-                                            data-parsley-required-message="请选择商品类型"
+                                            data-parsley-required-message="请选择上级分类类"
                                             name="parent_id">
-                                        <option value="">-- 请选择 --</option>
+                                        <option value="0">-- 顶级分类 --</option>
 
                                         @foreach($category as $cat)
                                               <option value="{{ $cat->CategoryId }}">{{ $cat->CategoryName }}</option>
                                           @endforeach
                                     </select>
-                                    @if(auth('admin')->user()->can('goodsCategory.add'))
+                                   {{-- @if(auth('admin')->user()->can('goodsCategory.add'))
                                         <a href="{{ url('admin/goodsCategory/create') }}">
                                             <button type="button" class="btn btn-primary m-r-5 m-b-5"><i class="fa fa-plus-square-o"></i> 新增</button>
                                         </a>
-                                    @endif
+                                    @endif--}}
                                     <p id="parent_id_error1"></p>
 
                                 </div>
 
                             </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-4 col-sm-4" for="CategoryName">分类名称 * :</label>
+                                <div class="col-md-6 col-sm-6">
+                                    <input class="form-control" type="text" name="CategoryName" placeholder="CategoryName" data-parsley-required="true" data-parsley-required-message="分类名称" value="{{ old('CategoryName') }}"/>
+                                </div>
+                            </div>
+
 
                             <div class="form-group">
                                 <label class="control-label col-md-4 col-sm-4"></label>
@@ -116,4 +98,24 @@
 
 @section('admin-js')
     <script src="{{ asset('asset_admin/assets/plugins/parsley/dist/parsley.js') }}"></script>
+{{--    <script src="{{ asset('asset_admin/assets/plugins/jquery/jquery-1.8.2.min.js') }}"></script>--}}
+    <script src="{{ asset('asset_admin/assets/plugins/DataTables/media/js/jquery.dataTables.js') }}"></script>
+    <script>
+      $(function () {
+
+          $("#type-option").on('change',function () {
+              var categoryType=$(this).val();
+              $.ajax({
+                  type:'get',
+                  url: '{{ url('admin/goodsCategory/ajax') }}',
+                  data:'type='+categoryType+'',
+                  dataType: 'json',
+                  success: function (backdate) {
+                      alert(backdate);
+                  }
+              })
+          })
+
+      })
+    </script>
 @endsection
