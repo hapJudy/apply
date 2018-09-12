@@ -15,7 +15,7 @@
         </ol>
         <!-- end breadcrumb -->
         <!-- begin page-header -->
-        <h1 class="page-header">采购请求审核 <small>header small text goes here...</small></h1>
+        <h1 class="page-header">入库单审核 <small>header small text goes here...</small></h1>
         <!-- end page-header -->
 
         <!-- begin row -->

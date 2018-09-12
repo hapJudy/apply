@@ -63,6 +63,57 @@ class MenusTableSeeder extends Seeder
         $GoodsList->parent_id = $GoodsManage->id;
         $GoodsList->save();
 
+        $InboundManage =new \App\models\Inbound();
+        $InboundManage->name = '库存管理';
+        $InboundManage->url = 'admin/inbound';
+        $InboundManage->slug = 'inbound.list';
+        $InboundManage->icon = 'fa fa-cogs';
+        $InboundManage->parent_id = 0;
+        $InboundManage->save();
+
+        $Inboundlist = new \App\models\Inbound();
+        $Inboundlist->name = '入库管理';
+        $Inboundlist->url = 'admin/inbound';
+        $Inboundlist->slug = 'inbound.list';
+        $Inboundlist->parent_id = $InboundManage->id;
+        $Inboundlist->save();
+        $Outboundlist = new \App\models\Outbound();
+        $Outboundlist->name = '出库管理';
+        $Outboundlist->url = 'admin/outbound';
+        $Outboundlist->slug = 'outbound.list';
+        $Outboundlist->parent_id = $InboundManage->id;
+        $Outboundlist->save();
+
+
+        $SupplierManage = new \App\models\Supplier();
+        $SupplierManage->name = '供应商管理';
+        $SupplierManage->url = 'admin/supplier';
+        $SupplierManage->slug = 'supplier.list';
+        $SupplierManage->icon = 'fa fa-cogs';
+        $SupplierManage->parent_id = 0;
+        $SupplierManage->save();
+
+        $SupplierList = new \App\models\Supplier();
+        $SupplierList->name = '供应商管理';
+        $SupplierList->url = 'admin/supplier';
+        $SupplierList->slug = 'supplier.list';
+        $SupplierList->parent_id = $SupplierManage->id;
+        $SupplierList->save();
+
+        $PurchaseManage = new \App\models\Purchase();
+        $PurchaseManage->name = '采购管理';
+        $PurchaseManage->url = 'admin/purchase';
+        $PurchaseManage->slug = 'purchase.list';
+        $PurchaseManage->icon = 'fa fa-cogs';
+        $PurchaseManage->parent_id = 0;
+        $PurchaseManage->save();
+
+        $PurchaseList = new \App\models\Purchase();
+        $PurchaseList->name = '采购管理';
+        $PurchaseList->url = 'admin/purchase';
+        $PurchaseList->slug = 'purchase.list';
+        $PurchaseList->parent_id = $PurchaseManage->id;
+        $PurchaseList->save();
 
     }
 }
