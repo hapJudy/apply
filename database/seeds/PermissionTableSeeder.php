@@ -17,6 +17,12 @@ class PermissionTableSeeder extends Seeder
         $this->adminUser();
         $this->permission();
         $this->role();
+        $this->goods();
+        $this->goodsCategory();
+        $this->stockManage();
+        $this->stock();
+        $this->purchase();
+        $this->supplier();
     }
 
     /**
@@ -151,6 +157,8 @@ class PermissionTableSeeder extends Seeder
         $roleDelete->save();
     }
 
+
+
     public function goods(){
         $goodsList = New Permission();
         $goodsList->name = 'goods.list';
@@ -170,10 +178,137 @@ class PermissionTableSeeder extends Seeder
         $goodsEdit->description = '修改商品';
         $goodsEdit->save();
 
+        $purchaseAdd = New Permission();
+        $purchaseAdd->name = 'purchase.add';
+        $purchaseAdd->display_name = '采购商品';
+        $purchaseAdd->description = '采购商品';
+        $purchaseAdd->save();
+
+        $outboundAdd= New Permission();
+        $outboundAdd->name = 'outbound.add';
+        $outboundAdd->display_name = '商品出库';
+        $outboundAdd->description = '出库商品';
+        $outboundAdd->save();
+
         $goodsDelete = New Permission();
         $goodsDelete->name = 'goods.delete';
         $goodsDelete->display_name = '删除商品';
         $goodsDelete->description = '删除商品';
         $goodsDelete->save();
     }
-}
+
+    public function goodsCategory(){
+        $goodsCategoryList = New Permission();
+        $goodsCategoryList->name = 'goodsCategory.list';
+        $goodsCategoryList->display_name = '分类列表';
+        $goodsCategoryList->description = '分类列表';
+        $goodsCategoryList->save();
+
+        $goodsCategoryAdd = New Permission();
+        $goodsCategoryAdd->name = 'goodsCategory.add';
+        $goodsCategoryAdd->display_name = '添加分类';
+        $goodsCategoryAdd->description = '添加分类';
+        $goodsCategoryAdd->save();
+
+        $goodsCategoryEdit = New Permission();
+        $goodsCategoryEdit->name = 'goodsCategory.edit';
+        $goodsCategoryEdit->display_name = '修改分类';
+        $goodsCategoryEdit->description = '修改分类';
+        $goodsCategoryEdit->save();
+
+
+        $goodsCategoryDelete = New Permission();
+        $goodsCategoryDelete->name = 'goodsCategory.delete';
+        $goodsCategoryDelete->display_name = '删除分类';
+        $goodsCategoryDelete->description = '删除分类';
+        $goodsCategoryDelete->save();
+    }
+
+    /**
+     * create stockManage permission
+     */
+    public function stockManage()
+    {
+        $stockanage = New Permission();
+        $stockanage->name = 'stock.manage';
+        $stockanage->display_name = '库存管理';
+        $stockanage->description = '库存管理';
+        $stockanage->save();
+    }
+
+    public function stock()
+    {
+        $inboundList = New Permission();
+        $inboundList->name = 'inbound.list';
+        $inboundList->display_name = '入库列表';
+        $inboundList->description = '入库列表';
+        $inboundList->save();
+
+        $inboundEdit = New Permission();
+        $inboundEdit->name = 'inbound.edit';
+        $inboundEdit->display_name = '入库审核';
+        $inboundEdit->description = '入库审核';
+        $inboundEdit->save();
+
+        $outboundList = New Permission();
+        $outboundList->name = 'outbound.List';
+        $outboundList->display_name = '出库列表';
+        $outboundList->description = '出库列表';
+        $outboundList->save();
+
+        $inboundEdit = New Permission();
+        $inboundEdit->name = 'outbound.edit';
+        $inboundEdit->display_name = '出库审核';
+        $inboundEdit->description = '出库审核';
+        $inboundEdit->save();
+    }
+
+    public function  purchase(){
+        $purchaseList = New Permission();
+        $purchaseList->name = 'purchase.list';
+        $purchaseList->display_name = '采购列表';
+        $purchaseList->description = '采购列表';
+        $purchaseList->save();
+
+        $purchaseEdit = New Permission();
+        $purchaseEdit->name = 'purchase.edit';
+        $purchaseEdit->display_name = '采购审核';
+        $purchaseEdit->description = '采购审核';
+        $purchaseEdit->save();
+
+        $purchaseDelete = New Permission();
+        $purchaseDelete->name = 'purchase.delete';
+        $purchaseDelete->display_name = '采购单删除';
+        $purchaseDelete->description = '采购单删除';
+        $purchaseDelete->save();
+
+    }
+
+    public function supplier(){
+        $supplierList = New Permission();
+        $supplierList->name = 'supplier.list';
+        $supplierList->display_name = '供应商列表';
+        $supplierList->description = '供应商列表';
+        $supplierList->save();
+
+        $supplierAdd = New Permission();
+        $supplierAdd->name = 'supplier.add';
+        $supplierAdd->display_name = '添加供应商';
+        $supplierAdd->description = '添加供应商';
+        $supplierAdd->save();
+
+        $supplierEdit = New Permission();
+        $supplierEdit->name = 'supplier.edit';
+        $supplierEdit->display_name = '修改供应商';
+        $supplierEdit->description = '修改供应商';
+        $supplierEdit->save();
+
+
+        $supplierDelete = New Permission();
+        $supplierDelete->name = 'supplier.delete';
+        $supplierDelete->display_name = '删除供应商';
+        $supplierDelete->description = '删除供应商';
+        $supplierDelete->save();
+    }
+
+    }
